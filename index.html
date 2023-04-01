@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes App</title>
+</head>
+
+<body>
+    <div id="quotes"></div>
+    <button id="newquotes" style="color: blue;">new quotes</button>
+
+    <script>
+        let realdata = "";
+        const newquotes = document.getElementById('newquotes')
+        const quotes = document.getElementById('quotes')
+        const getnewquotes = () => {
+            let rnum = Math.floor(Math.random() * 1000)
+            console.log(rnum);
+            let newdata = realdata[rnum]
+            console.log(newdata.text);
+            console.log(newdata.author);
+            if (newdata.author == null) {
+                newdata.author = "unknown"
+            }
+            quotes.innerText = newdata.text + "  " + " By " + newdata.author
+
+        }
+        const getQuotes = async () => {
+            const api = "https://type.fit/api/quotes"
+            try {
+                let data = await fetch(api)
+                realdata = await data.json()
+                getnewquotes()
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        newquotes.addEventListener('click', getnewquotes);
+
+        getQuotes();
+    </script>
+</body>
+
+</html>
